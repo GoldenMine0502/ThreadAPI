@@ -21,7 +21,7 @@ APIThread(TimeUnitFactory.unit, value)
 
 
 
-#Example code\n
+# Example code
 
 APIThread thread = new APIThread(TimeUnitFactory.SECOND, 1) {
 
@@ -33,10 +33,16 @@ APIThread thread = new APIThread(TimeUnitFactory.SECOND, 1) {
   @Override
   
   public void onThreadExecute() throws InterruptedException {
+    
     System.out.println(++time + " Sec");
+  
   }
 
-  /*if your code on onThreadExecute() is too very heavy to calculate time normally, The ThreadAPI create new time calculation and refresh.        then, this method is called.*/
+  /*if your code on onThreadExecute() is too very heavy to calculate time normally, 
+  
+  The ThreadAPI create new time calculation and refresh.        
+  
+  then, this method is called.*/
   
   @Override
   
@@ -44,7 +50,12 @@ APIThread thread = new APIThread(TimeUnitFactory.SECOND, 1) {
 
   }
 
-  /*when you call APIPause or etc, The ThreadAPI wakes up Thread.sleep(). then, this method is called*/ 
+  /*when you call APIPause or etc, 
+  
+  The ThreadAPI wakes up Thread.sleep(). 
+  
+  then, this method is called*/ 
+ 
  
   @Override
   
@@ -83,9 +94,11 @@ APIThread thread = new APIThread(TimeUnitFactory.SECOND, 1) {
   public void onStop() {
 
   }
+  
 };
 
 // start thread
+
 thread.start();
 
 
@@ -94,5 +107,7 @@ APIMultiThread is unstable. I suggest you don't use.
 
 
 Good Luck!
+
 by GoldenMine (Korean)
+
 blog.naver.com/ehe123
