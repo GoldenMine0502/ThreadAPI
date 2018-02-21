@@ -19,7 +19,7 @@ public abstract class APIThread extends Thread implements APIThreadable {
         this(factory, unit, 0);
     }
 
-    public APIThread(TimeUnitFactory factory, double unit, int firstremain) {
+    protected APIThread(TimeUnitFactory factory, double unit, int firstremain) {
         this(factory.convert(unit), firstremain);
     }
 
@@ -27,7 +27,7 @@ public abstract class APIThread extends Thread implements APIThreadable {
         this.fps = fps;
     }
 
-    public APIThread(double fps, int firstremain) {
+    protected APIThread(double fps, int firstremain) {
         this(fps);
         this.firstremain = firstremain;
     }
