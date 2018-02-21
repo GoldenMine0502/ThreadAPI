@@ -28,27 +28,27 @@ public abstract class APIMultiThread implements APIThreadable {
 
                 @Override
                 public void onInterrupt() {
-                    processIntterrupt();
+                    processInterrupt();
                 }
 
                 @Override
                 public void onStart() {
-                    processStart();
+                    
                 }
 
                 @Override
                 public void onPause() {
-                    processPause();
+                    
                 }
 
                 @Override
                 public void onResume() {
-                    processResume();
+                    
                 }
 
                 @Override
                 public void onStop() {
-                    processStop();
+                    
                 }
             };
             threads.add(t);
@@ -57,6 +57,8 @@ public abstract class APIMultiThread implements APIThreadable {
 
     @Override
     public void APIPause() {
+        processPause();
+        
         for (int i = 0; i < threads.size(); i++) {
             threads.get(i).APIPause();
         }
@@ -64,19 +66,24 @@ public abstract class APIMultiThread implements APIThreadable {
 
     @Override
     public void APIResume() {
+        processResume();
         for (int i = 0; i < threads.size(); i++) {
             threads.get(i).APIResume();
         }
+
     }
 
     @Override
     public void APIStop() {
+        processStop();
         for (int i = 0; i < threads.size(); i++) {
             threads.get(i).APIStop();
         }
     }
 
     public void start() {
+        processStart();
+        
         for (int i = 0; i < threads.size(); i++) {
             threads.get(i).start();
         }
@@ -90,7 +97,7 @@ public abstract class APIMultiThread implements APIThreadable {
         onKeepUp();
     }
 
-    private void processIntterrupt() {
+    private void processInterrupt() {
         onInterrupt();
     }
 
