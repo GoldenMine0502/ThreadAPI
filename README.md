@@ -22,7 +22,7 @@ APIThread(TimeUnitFactory.unit, value)
 
 
 # Example code
-
+```
 APIThread thread = new APIThread(TimeUnitFactory.SECOND, 1) {
 
   int time;
@@ -33,7 +33,7 @@ APIThread thread = new APIThread(TimeUnitFactory.SECOND, 1) {
   @Override
   
   public void onThreadExecute() throws InterruptedException {
-    
+   
     System.out.println(++time + " Sec");
   
   }
@@ -100,7 +100,7 @@ APIThread thread = new APIThread(TimeUnitFactory.SECOND, 1) {
 // start thread
 
 thread.start();
-
+```
 
 
 APIMultiThread is unstable. I suggest you don't use.
