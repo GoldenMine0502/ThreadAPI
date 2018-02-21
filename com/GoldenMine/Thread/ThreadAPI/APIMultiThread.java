@@ -37,7 +37,7 @@ public abstract class APIMultiThread implements APIThreadable {
 
                         APIThread t = new APIThread(fps, lastremain) {
                             public void onThreadExecute() throws InterruptedException {
-                                process(); // APIMultiThreadÀÇ execute()¸Ş¼­µå¸¦ ½ÇÇàÇÏ°í ½Í´Ù
+                                process(); // APIMultiThreadì˜ execute()ë©”ì„œë“œë¥¼ ì‹¤í–‰í•˜ê³  ì‹¶ë‹¤
                             }
 
                             @Override
@@ -57,7 +57,7 @@ public abstract class APIMultiThread implements APIThreadable {
 
                             @Override
                             public void onPause() {
-processPause();
+                                processPause();
                             }
 
                             @Override
