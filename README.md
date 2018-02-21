@@ -93,7 +93,6 @@ thread.start();
 ```
 
 
-APIMultiThread is unstable. I suggest you don't use.
 
 
 Good Luck!
