@@ -22,59 +22,50 @@ APIThread(TimeUnitFactory.unit, value)
 
 
 # Example code
-```
+```java
 APIThread thread = new APIThread(TimeUnitFactory.SECOND, 1) {
-
   int time;
 
 
   /*when one tick is passed*/
   
   @Override
-  
   public void onThreadExecute() throws InterruptedException {
-   
     System.out.println(++time + " Sec");
-  
   }
 
+
   /*if your code on onThreadExecute() is too very heavy to calculate time normally, 
-  
   The ThreadAPI create new time calculation and refresh.        
-  
   then, this method is called.*/
-  
+ 
   @Override
-  
   public void onKeepUp() {
 
   }
 
-  /*when you call APIPause or etc, 
-  
+
+  /*when you call APIPause or etc,
   The ThreadAPI wakes up Thread.sleep(). 
-  
   then, this method is called*/ 
  
- 
-  @Override
-  
+  @Override 
   public void onInterrupt() {
 
   }
+  
 
   /*when you start thread, this method is called*/
   
   @Override
-  
   public void onStart() {
 
   }
 
+
   /*when you call APIPause(), this method is called*/
   
   @Override
-  
   public void onPause() {
 
   }
@@ -82,15 +73,14 @@ APIThread thread = new APIThread(TimeUnitFactory.SECOND, 1) {
   /*when you call APIResume(), this methoid is called*/
   
   @Override
-  
   public void onResume() {
 
   }
 
+
   /*when you call APIStop(), this method is called*/
   
   @Override
-  
   public void onStop() {
 
   }
