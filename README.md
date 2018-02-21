@@ -4,9 +4,9 @@ The Library counting consecutive time
 
 
 # how to use
-extend your own class or create your annoymous class
+extend your own class or create your annoymous class.
 
-you should provide fps for APIThread
+you should provide fps for APIThread.
 
 APIThread(int fps)
 
