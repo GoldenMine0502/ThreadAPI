@@ -1,9 +1,9 @@
 # ThreadAPI
-The Library counting consecutive time 
+**The Library counting consecutive time**
 
 
 
-# how to use
+# How To Use
 extend your own class or create your annoymous class.
 
 you should provide fps for APIThread.
@@ -18,6 +18,8 @@ APIThread(TimeUnitFactory.unit, value)
   
   ex) APIThread(TimeUnitFactory.MINUTE, 2)
   
+
+i will introduce abstract APIThread's methods next.
 
 
 
@@ -91,6 +93,8 @@ APIThread thread = new APIThread(TimeUnitFactory.SECOND, 1) {
 
 thread.start();
 ```
+
+
 
 
 
