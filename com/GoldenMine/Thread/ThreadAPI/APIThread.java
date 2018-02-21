@@ -39,15 +39,21 @@ public abstract class APIThread extends Thread implements APIThreadable {
         onStart();
 
         delay = new Delay(fps);
-        start = System.currentTimeMillis();
+        start = System.currentTimeMillis() + firstremain;
 
+        try {
+            Thread.sleep(firstremain);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //System.out.println(start);
 
         while(!stop) {
             try {
                 if(paused) {
                     Thread.sleep(Integer.MAX_VALUE);
-                    interrupt();
+                    //interrupt();
+                    continue;
                     //start += delay.keepUp(start, delay.getRemainMS(start), keepup);
                 }
                 onThreadExecute();
@@ -98,90 +104,23 @@ public abstract class APIThread extends Thread implements APIThreadable {
             public void onTimerTick() {
                 System.out.println("test");
             }
-
             @Override
             public void onTimerExpire() {
-
             }
-
             @Override
             public void onTimerInterrupt() {
-
             }
-
             @Override
             public void onTimerStart() {
-
             }
-
             @Override
             public void onTimerPause() {
-
             }
-
             @Override
             public void onTimerResume() {
-
             }
-
             public enum WatchType {
     FPS,SECOND,MILLISECOND,MINUTE,HOUR;
 }
-
      */
 }
-
-/*
-Delay ����
-
-333333 + 333333 + 333334
-
-3 1000/3 = 333.333333333 = 1000000-1
-
-2/3 666666 + 666666 + 666666 = 2000000-2
-
-7 857142 = 6000000-6
-
-11 909090 = 9999990-10
-
-13 923076 = 11999988-12
-
-17 823529 = 13999993-7
-
-19 631578 = 631578-18
-
-23 478260 = 10999980 - 20
-
-29 482758 = 13999982 - 18
-
-12378 80788 =
-
-�׻� xx,000,000�� ���;� ��
-
-���� ��%1000000 = 0�� ��� ����
-
-int val = ns * 1000000 * ���� ��
-
-��%1000000 = 0�ΰ�� ���� �� �����̹Ƿ�
-int val2 = 1000000-(val-val2/1000000*1000000);
-// ��%1000000 = 0�� �ּڰ�
-
-�׸��� ���� ����ŭ ����Ŭ�� �� ������
-�ش� ���� ����
-
-
-��Ƽ�����忡���� �����带 ������ ����
-���������� ����
-
-int �������;
-
-�������/a
-
-�ִ��� �����ϰ� �����尣 ������ �ٿ��� ��
-���� Delay ���� ����
-�׸��� �̷��� ���� Delay���� ������ ���� ����
-
-
-
-
- */
