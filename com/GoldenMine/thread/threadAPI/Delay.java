@@ -2,7 +2,7 @@ package com.GoldenMine.thread.threadAPI;
 
 public class Delay {
     private long start;
-    private long keepUp;
+    private long keepUp = -2000;
 
     private double fps = 0;
 
