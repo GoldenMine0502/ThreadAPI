@@ -35,7 +35,7 @@ public abstract class APISingleThread extends APIThread {
     }
 
 
-    protected APISingleThread(long start, double fps) {
+    private APISingleThread(long start, double fps) {
         this.start = start;
         this.fps = fps;
 
