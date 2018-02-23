@@ -11,8 +11,6 @@ public class Delay {
     private int tick = 0;
     private int interval = 0;
 
-    //private long start;
-
     public Delay(double fps, long start) {
         double time = 1000D/fps;
         int ms = (int)time;
