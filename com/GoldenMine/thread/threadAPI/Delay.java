@@ -7,7 +7,6 @@ public class Delay {
     private double fps = 0;
 
     private int ms;
-    private int ns;
 
     private int tick = 0;
     private int interval = 0;
@@ -20,11 +19,10 @@ public class Delay {
         int ns = (int) ((time - ms)*1000000);
         double val = ns*fps;
 
-        //this.start = start;
+        this.start = start;
 
         this.fps = fps;
         this.ms = ms;
-        this.ns = ns;
         this.interval = (int) (1000000-(val-(int)val/1000000*1000000));
 
         if(this.interval==1000000) {
@@ -43,10 +41,6 @@ public class Delay {
 
     public int getMS() {
         return ms;
-    }
-
-    public int getNS() {
-        return ns;
     }
 
     public int update() {
@@ -144,5 +138,9 @@ public class Delay {
     public int getRemainMS(long start) {
         //System.out.println("remain: " + start);
         return (int) (getMS() - (System.currentTimeMillis() - start));
+    }
+
+    public void setTime(long time) {
+        this.start = time;
     }
 }
