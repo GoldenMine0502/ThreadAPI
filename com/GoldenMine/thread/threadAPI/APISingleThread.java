@@ -24,12 +24,12 @@ public abstract class APISingleThread extends APIThread {
     }
 
     /*for APIMultiThread */
-    protected APISingleThread(long start, TimeUnitFactory factory, double unit, int firstRemain) {
+    APISingleThread(long start, TimeUnitFactory factory, double unit, int firstRemain) {
         this(start, factory.convert(unit), firstRemain);
     }
 
     /*for APIMultiThread */
-    protected APISingleThread(long start, double fps, int firstRemain) {
+    APISingleThread(long start, double fps, int firstRemain) {
         this(start, fps);
         this.firstRemain = firstRemain;
     }
