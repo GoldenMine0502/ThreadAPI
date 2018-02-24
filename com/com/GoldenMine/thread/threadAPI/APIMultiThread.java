@@ -16,6 +16,8 @@ public class APIMultiThread extends APIThread {
 
     public APIMultiThread(double fps, int time, APIThreadHandler handler) {
 
+        this.handler = handler;
+        
         long start = System.currentTimeMillis();
 
         //create threads
