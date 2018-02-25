@@ -1,4 +1,4 @@
-package com.GoldenMine.thread.threadAPI.pastVersion.Unit;
+package GoldenMine.thread.threadAPI.pastVersion;
 
 public enum TimeUnitFactory {
     MS(n -> 1F/(n/1000F)),

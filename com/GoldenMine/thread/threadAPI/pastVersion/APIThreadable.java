@@ -1,4 +1,4 @@
-package com.GoldenMine.thread.threadAPI.pastVersion;
+package GoldenMine.thread.threadAPI.pastVersion;
 
 public interface APIThreadable {
     void onThreadExecute() throws InterruptedException;

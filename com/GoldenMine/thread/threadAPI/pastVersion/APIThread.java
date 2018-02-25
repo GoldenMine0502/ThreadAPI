@@ -1,4 +1,4 @@
-package com.GoldenMine.thread.threadAPI.pastVersion;
+package GoldenMine.thread.threadAPI.pastVersion;
 
 import com.GoldenMine.thread.threadAPI.pastVersion.Unit.TimeUnitFactory;
 

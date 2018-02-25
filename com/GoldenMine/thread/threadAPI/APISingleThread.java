@@ -1,43 +1,41 @@
-package com.GoldenMine.thread.threadAPI;
+package GoldenMine.thread.threadAPI;
 
-import com.GoldenMine.thread.threadAPI.pastVersion.Delay;
-import com.GoldenMine.thread.threadAPI.unit.TimeUnitFactory;
+import com.GoldenMine.thread.threadAPI.unit.TimeUnit;
 
-public abstract class APISingleThread extends APIThread {
+public class APISingleThread extends APIThread {
     Thread thread;
 
-    private double fps;
     private boolean stop = false;
     private boolean paused = false;
 
     private int firstRemain;
 
     private Delay delay;
-    private long start;
 
-    public APISingleThread(TimeUnitFactory factory, double unit) {
-        this(System.currentTimeMillis(), factory, unit, 0);
+    private APIThreadHandler handler;
+
+    public APISingleThread(TimeUnit factory, double unit, APIThreadHandler handler) {
+        this(System.currentTimeMillis(), factory, unit, 0, handler);
     }
 
-    public APISingleThread(double fps) {
-        this(System.currentTimeMillis(), fps);
-    }
-
-    /*for APIMultiThread */
-    APISingleThread(long start, TimeUnitFactory factory, double unit, int firstRemain) {
-        this(start, factory.convert(unit), firstRemain);
+    public APISingleThread(double fps, APIThreadHandler handler) {
+        this(System.currentTimeMillis(), fps, handler);
     }
 
     /*for APIMultiThread */
-    APISingleThread(long start, double fps, int firstRemain) {
-        this(start, fps);
+    APISingleThread(long start, TimeUnit factory, double unit, int firstRemain, APIThreadHandler handler) {
+        this(start, factory.convert(unit), firstRemain, handler);
+    }
+
+    /*for APIMultiThread */
+    APISingleThread(long start, double fps, int firstRemain, APIThreadHandler handler) {
+        this(start, fps, handler);
         this.firstRemain = firstRemain;
     }
 
 
-    private APISingleThread(long start, double fps) {
-        this.start = start;
-        this.fps = fps;
+    private APISingleThread(long start, double fps, APIThreadHandler handler) {
+        this.handler = handler;
 
         delay = new Delay(fps, start + firstRemain);
 
@@ -52,13 +50,14 @@ public abstract class APISingleThread extends APIThread {
                         Thread.sleep(Integer.MAX_VALUE);
                         continue;
                     }
-                    onThreadExecute();
+
+                    handler.onThreadExecute();
 
                     if (delay.autoCompute()) {
-                        onKeepUp();
+                        handler.onKeepUp();
                     }
                 } catch (InterruptedException ex) {
-                    onInterrupt();
+                    handler.onInterrupt();
                     sleepInMulti();
                 }
             }
@@ -68,41 +67,39 @@ public abstract class APISingleThread extends APIThread {
 
     private void sleepInMulti() {
         try {
-            if (start > 0)
-                Thread.sleep(start);
+            if (firstRemain > 0)
+                Thread.sleep(firstRemain);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
     }
 
-    public double getFPS() {
-        return fps;
-    }
-
     @Override
     public void start() {
-        onStart();
+        handler.onStart();
         thread.start();
     }
 
+    @Override
     public void stop() {
-        onStop();
+        handler.onStop();
         stop = true;
         thread.interrupt();
     }
 
     @Override
     void resume(long start) {
-        onResume();
-        this.start = start;
+        handler.onResume();
+        delay.setTime(start + firstRemain);
         paused = false;
         thread.interrupt();
     }
 
 
+    @Override
     public void pause() {
-        onPause();
+        handler.onPause();
         paused = true;
         thread.interrupt();
     }
@@ -111,4 +108,6 @@ public abstract class APISingleThread extends APIThread {
     public void resume() {
         resume(System.currentTimeMillis());
     }
+
+
 }

@@ -1,13 +1,10 @@
-package com.GoldenMine.thread.threadAPI;
+package GoldenMine.thread.threadAPI;
 
 public class Delay {
     private long start;
     private long keepUp = -2000;
-
     private double fps = 0;
-
     private int ms;
-
     private int tick = 0;
     private int interval = 0;
 
@@ -32,16 +29,11 @@ public class Delay {
         this(fps, System.currentTimeMillis());
     }
 
-    public Delay(int fps, int delay) {
-        this(fps);
-        tick = delay;
-    }
-
     public int getMS() {
         return ms;
     }
 
-    public int update() {
+    private int update() {
         tick++;
         if(tick==fps) {
             tick = 0;
@@ -68,17 +60,6 @@ public class Delay {
         keepUp = keepUpTime;
     }
 
-    @Deprecated
-    public long keepUp(long start, int keepup) {
-        long cal = 0;
-        if(getRemainMS(start)<=keepup) {
-            while(getRemainMS(start + cal)>=-keepup)
-                cal+=getMS() + getUpdateMS();
-        }
-        //System.out.println("cal: " + cal);
-        return cal;
-    }
-
     public boolean autoCompute() throws InterruptedException {
         int ms = getRemainMS(start);
         int msplus = getUpdateMS();
@@ -96,18 +77,6 @@ public class Delay {
         start+=cal;
 
         return cal!=0;
-    }
-
-    @Deprecated
-    public long autoCompute(long start) throws InterruptedException {
-        int ms = getRemainMS(start);
-        int msplus = getUpdateMS();
-
-        start+=getMS() + msplus;
-
-        Delay.sleep(ms + msplus);
-
-        return start;
     }
 
     public double getFPS() {
@@ -128,11 +97,6 @@ public class Delay {
         }
     }
 
-    public static void sleep(int ms) throws InterruptedException {
-        if(ms>0)
-         Thread.sleep(ms);
-    }
-
     public int getRemainMS(long start) {
         //System.out.println("remain: " + start);
         return (int) (getMS() - (System.currentTimeMillis() - start));
@@ -140,5 +104,10 @@ public class Delay {
 
     public void setTime(long time) {
         this.start = time;
+    }
+
+    public static void sleep(int ms) throws InterruptedException {
+        if(ms>0)
+         Thread.sleep(ms);
     }
 }

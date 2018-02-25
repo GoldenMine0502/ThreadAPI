@@ -1,66 +1,50 @@
-package com.GoldenMine.thread.threadAPI;
+package GoldenMine.thread.threadAPI;
 
-import com.GoldenMine.thread.threadAPI.unit.TimeUnitFactory;
+import com.GoldenMine.thread.threadAPI.unit.TimeUnit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class APIMultiThread extends APIThread {
+public class APIMultiThread extends APIThread {
     private List<APISingleThread> threads = new ArrayList<APISingleThread>();
 
-    public APIMultiThread(TimeUnitFactory factory, double unit, int time) {
-        this(factory.convert(unit), time);
+    private APIThreadHandler handler;
+
+    public APIMultiThread(TimeUnit factory, double unit, int time, APIThreadHandler handler) {
+        this(factory.convert(unit), time, handler);
     }
 
-    public APIMultiThread(double fps, int time) {
+    public APIMultiThread(double fps, int time, APIThreadHandler handler) {
+
+        this.handler = handler;
 
         long start = System.currentTimeMillis();
 
         //create threads
         for (int i = 0; i < time; i++) {
-            APISingleThread t = new APISingleThread(start, fps, (int) Math.round(fps / time * 1000 * i)) {
+            APISingleThread t = new APISingleThread(start, fps, (int) Math.round(fps / time * 1000 * i), new APIThreadHandler() {
                 @Override
                 public void onThreadExecute() throws InterruptedException {
-                    onThreadExecute();
+                    handler.onThreadExecute();
                 }
 
                 @Override
                 public void onKeepUp() {
-                    onKeepUp();
+                    handler.onKeepUp();
                 }
 
                 @Override
                 public void onInterrupt() {
-                    onInterrupt();
+                    handler.onInterrupt();
                 }
-
-                @Override
-                public void onStart() {
-
-                }
-
-                @Override
-                public void onPause() {
-
-                }
-
-                @Override
-                public void onResume() {
-
-                }
-
-                @Override
-                public void onStop() {
-
-                }
-            };
+            });
             threads.add(t);
         }
     }
 
     @Override
     public void pause() {
-        onPause();
+        handler.onPause();
         for (int i = 0; i < threads.size(); i++) {
             threads.get(i).pause();
         }
@@ -73,7 +57,7 @@ public abstract class APIMultiThread extends APIThread {
 
     @Override
     protected void resume(long start) {
-        onResume();
+        handler.onResume();
 
         for (int i = 0; i < threads.size(); i++) {
             threads.get(i).resume(start);
@@ -82,15 +66,16 @@ public abstract class APIMultiThread extends APIThread {
 
     @Override
     public void stop() {
-        onStop();
+        handler.onStop();
 
         for (int i = 0; i < threads.size(); i++) {
             threads.get(i).stop();
         }
     }
 
+    @Override
     public void start() {
-        onStart();
+        handler.onStart();
 
         for (int i = 0; i < threads.size(); i++) {
             threads.get(i).start();

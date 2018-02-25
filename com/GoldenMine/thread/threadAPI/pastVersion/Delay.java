@@ -1,4 +1,4 @@
-package com.GoldenMine.thread.threadAPI.pastVersion;
+package GoldenMine.thread.threadAPI.pastVersion;
 
 public class Delay {
     private long start;
@@ -20,7 +20,7 @@ public class Delay {
         int ns = (int) ((time - ms)*1000000);
         double val = ns*fps;
 
-        //this.start = start;
+        this.start = start;
 
         this.fps = fps;
         this.ms = ms;
