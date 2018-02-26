@@ -8,6 +8,22 @@ public class Delay {
     private double tick = 0;
     private int plusms = 0;
 
+
+    /**
+     * this class calculate time automatically
+     * 시간을 자동으로 계산해주는 클래스입니다.
+     * @param fps fps, 프레임
+     */
+    public Delay(double fps) {
+        this(fps, System.currentTimeMillis());
+    }
+
+    /**
+     * added start parameter to synchronize time
+     * 시간을 동기화하기 위한 start 매개변수가 추가됨.
+     * @param fps fps, 프레임
+     * @param start start time, 시작 시간
+     */
     public Delay(double fps, long start) {
         this.start = start;
         this.fps = fps;
@@ -33,10 +49,10 @@ public class Delay {
             plusms = -1;
     }
 
-    public Delay(double fps) {
-        this(fps, System.currentTimeMillis());
-    }
-
+    /**
+     * 일정 주기마다 정지하는 MS를 얻습니다.
+     * @return ms time
+     */
     public int getMS() {
         return ms;
     }
@@ -50,10 +66,21 @@ public class Delay {
         return 0;
     }
 
+    /**
+     * time when keepUp is triggered
+     * 얼마나 느려졌을떄 keepUp을 실행할지 시간을 정합니다.
+     * @param keepUpTime keepUp time
+     */
     public void setKeepUpTime(long keepUpTime) {
         keepUp = -Math.abs(keepUpTime);
     }
 
+    /**
+     * calculate one tick time automatically
+     * 시간에 대해 자동으로 계산합니다. 이 메서드가 총괄적으로 한 틱을 계산해 낼 것입니다.
+     * @return keepUp is triggered, keepUp이 실행될 때
+     * @throws InterruptedException because it is about sleep, sleep 관련 함수이므로 InterruptedException이 붙게 됨
+     */
     public boolean autoCompute() throws InterruptedException {
         int ms = getRemainMS(start);
         int msplus = getUpdateMS();
@@ -78,10 +105,21 @@ public class Delay {
         return cal!=0;
     }
 
+    /**
+     * get fps
+     * 프레임을 얻습니다.
+     * @return fps
+     */
     public double getFPS() {
         return fps;
     }
 
+    /**
+     * 일정 시간을 멈춥니다.
+     * @param ms ms
+     * @param ns ns
+     * @throws InterruptedException because it is about sleep, sleep 관련 함수이므로 InterruptedException이 붙게 됨
+     */
     public static void sleep(int ms, int ns) throws InterruptedException {
         if (ms > 0) {
             if (ns > 0) {
@@ -96,21 +134,40 @@ public class Delay {
         }
     }
 
+    /**
+     * 일정 시간을 멈춥니다.
+     * @param ms ms
+     * @throws InterruptedException because it is about sleep, sleep 관련 함수이므로 InterruptedException이 붙게 됨
+     */
+    public static void sleep(int ms) throws InterruptedException {
+        if(ms>0)
+            Thread.sleep(ms);
+    }
+
+    /**
+     * get time really waiting
+     * 실질적으로 기다려야하는 시간을 얻습니다.
+     * @param start start time
+     * @return time
+     */
     public int getRemainMS(long start) {
         //System.out.println("remain: " + start);
         return (int) (getMS() - (System.currentTimeMillis() - start));
     }
 
+    /**
+     * 현재 시간을 설정합니다.
+     * @param time 시간
+     */
     public void setTime(long time) {
         this.start = time;
     }
 
+    /**
+     * 현재 시간을 얻습니다.
+     * @return time
+     */
     public long getTime() {
         return start;
-    }
-
-    public static void sleep(int ms) throws InterruptedException {
-        if(ms>0)
-         Thread.sleep(ms);
     }
 }
