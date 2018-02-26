@@ -41,27 +41,29 @@ public class APISingleThread extends APIThread {
 
         delay.setKeepUpTime(-2000);
 
-        thread = new Thread(() -> {
-            sleepInMulti();
+        thread = new Thread() {
+            public void run() {
+                sleepInMulti();
 
-            while (!stop) {
-                try {
-                    if (paused) {
-                        Thread.sleep(Integer.MAX_VALUE);
-                        continue;
+                while (!stop) {
+                    try {
+                        if (paused) {
+                            Thread.sleep(Integer.MAX_VALUE);
+                            continue;
+                        }
+
+                        handler.onThreadExecute();
+
+                        if (delay.autoCompute()) {
+                            handler.onKeepUp();
+                        }
+                    } catch (InterruptedException ex) {
+                        handler.onInterrupt();
+                        sleepInMulti();
                     }
-
-                    handler.onThreadExecute();
-
-                    if (delay.autoCompute()) {
-                        handler.onKeepUp();
-                    }
-                } catch (InterruptedException ex) {
-                    handler.onInterrupt();
-                    sleepInMulti();
                 }
             }
-        });
+        };
     }
 
 
@@ -88,8 +90,13 @@ public class APISingleThread extends APIThread {
         thread.interrupt();
     }
 
+
     @Override
-    void resume(long start) {
+    public void resume() {
+        resume(System.currentTimeMillis());
+    }
+
+    protected void resume(long start) {
         handler.onResume();
         delay.setTime(start + firstRemain);
         paused = false;
@@ -102,11 +109,6 @@ public class APISingleThread extends APIThread {
         handler.onPause();
         paused = true;
         thread.interrupt();
-    }
-
-    @Override
-    public void resume() {
-        resume(System.currentTimeMillis());
     }
 
 

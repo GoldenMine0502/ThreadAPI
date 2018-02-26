@@ -5,7 +5,7 @@ import com.GoldenMine.thread.threadAPI.unit.TimeUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class APIMultiThread extends APIThread {
+public final class APIMultiThread extends APIThread {
     private List<APISingleThread> threads = new ArrayList<APISingleThread>();
 
     private APIThreadHandler handler;

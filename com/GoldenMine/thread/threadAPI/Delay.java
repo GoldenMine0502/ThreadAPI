@@ -5,24 +5,32 @@ public class Delay {
     private long keepUp = -2000;
     private double fps = 0;
     private int ms;
-    private int tick = 0;
-    private int interval = 0;
+    private double tick = 0;
+    private int plusms = 0;
 
     public Delay(double fps, long start) {
-        double time = 1000D/fps;
-        int ms = (int)time;
-        int ns = (int) ((time - ms)*1000000);
-        double val = ns*fps;
-
         this.start = start;
-
         this.fps = fps;
-        this.ms = ms;
-        this.interval = (int) (1000000-(val-(int)val/1000000*1000000));
 
-        if(this.interval==1000000) {
-            this.interval = 0;
+        double time = 1000D/fps;
+        int ms = (int) time;
+        int ns = (int) ((time - ms)*1000000);
+        this.ms = ms;
+
+        double val = ns*fps;
+        int interval = (int) (1000000-(val-(int)val/1000000*1000000));
+
+        //System.out.println(ms + ", " + ns + ", " + interval);
+
+        if(interval>=1000000) {
+            interval-=1000000;
         }
+
+        if(interval > 0)
+            plusms = 1;
+
+        if (interval < 0)
+            plusms = -1;
     }
 
     public Delay(double fps) {
@@ -33,31 +41,17 @@ public class Delay {
         return ms;
     }
 
-    private int update() {
+    private int getUpdateMS() {
         tick++;
-        if(tick==fps) {
-            tick = 0;
-            return interval;
+        if(tick>=fps) {
+            tick -= fps;
+            return plusms;
         }
         return 0;
     }
 
-    public int getUpdateMS() {
-        int updated = update();
-        int msplus = 0;
-
-        if(updated>0) {
-            msplus=1;
-        }
-        if(updated<0) {
-            msplus=-1;
-        }
-
-        return msplus;
-    }
-
     public void setKeepUpTime(long keepUpTime) {
-        keepUp = keepUpTime;
+        keepUp = -Math.abs(keepUpTime);
     }
 
     public boolean autoCompute() throws InterruptedException {
@@ -66,15 +60,20 @@ public class Delay {
 
         start+=getMS() + msplus;
 
-        Delay.sleep(ms + msplus);
-
+        //System.out.println(getRemainMS(start));
+        /* keep up calculation */
         long cal = 0;
         if(getRemainMS(start)<=keepUp) {
-            while(getRemainMS(start + cal)>=-keepUp)
+            while(getRemainMS(start + cal)<=0)
                 cal+=getMS() + getUpdateMS();
+
+            //System.out.println(cal);
         }
 
         start+=cal;
+        /* sleep */
+        Delay.sleep(ms + msplus);
+
 
         return cal!=0;
     }
@@ -104,6 +103,10 @@ public class Delay {
 
     public void setTime(long time) {
         this.start = time;
+    }
+
+    public long getTime() {
+        return start;
     }
 
     public static void sleep(int ms) throws InterruptedException {
