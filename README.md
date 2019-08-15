@@ -14,14 +14,10 @@ or
 
 APIThread(TimeUnitFactory.unit, value)
 
-  ex) APIThread(TimeUnitFactory.MS, 100) = APIThread(0.1)
+  ex) APIThread(TimeUnitFactory.MS, 100) = APIThread(10)
   
   ex) APIThread(TimeUnitFactory.MINUTE, 2)
   
-
-i will introduce abstract APIThread's methods next.
-
-
 
 # Example code
 ```java
